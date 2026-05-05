@@ -163,6 +163,106 @@
   "distribution": [
     {
       "@type": "cr:FileObject",
+      "@id": "dataset_readme",
+      "name": "README.md",
+      "description": "Dataset card and quick-start documentation.",
+      "contentUrl": "README.md",
+      "contentSize": "4113",
+      "encodingFormat": "text/markdown",
+      "sha256": "a602771ef5b2179c4a96c0914bb5133dfd965e2db94821c3665e832fb4dfdd35"
+    },
+    {
+      "@type": "cr:FileObject",
+      "@id": "dataset_manifest_json",
+      "name": "dataset_manifest.json",
+      "description": "Machine-readable summary of counts, path conventions, prompt levels, and recommended entry points.",
+      "contentUrl": "dataset_manifest.json",
+      "contentSize": "1149",
+      "encodingFormat": "application/json",
+      "sha256": "0bc0bccc7d243b26602d92f840a0bbf607e2362433efb77d6fc2ec47080523a3"
+    },
+    {
+      "@type": "cr:FileObject",
+      "@id": "metadata_blocks_csv",
+      "name": "blocks.csv",
+      "description": "Clean block-level metadata table.",
+      "contentUrl": "metadata/blocks.csv",
+      "contentSize": "44516",
+      "encodingFormat": "text/csv",
+      "sha256": "e81d04804f7b3d176cbcdf484a55d48ff84c10a9c3f44754a52e1f60ff7ad108"
+    },
+    {
+      "@type": "cr:FileObject",
+      "@id": "metadata_reference_images_csv",
+      "name": "reference_images.csv",
+      "description": "Clean reference-image index with paths and GPS metadata.",
+      "contentUrl": "metadata/reference_images.csv",
+      "contentSize": "2474436",
+      "encodingFormat": "text/csv",
+      "sha256": "5312b951f01cfb46fb91dbe701d47bae636474124ebe375a9de21f0f73c8fef4"
+    },
+    {
+      "@type": "cr:FileObject",
+      "@id": "metadata_generated_images_csv",
+      "name": "generated_images.csv",
+      "description": "Clean generated-image index with model, prompt level, prompt text, seed, and image path.",
+      "contentUrl": "metadata/generated_images.csv",
+      "contentSize": "8872980",
+      "encodingFormat": "text/csv",
+      "sha256": "9af4f6318118ae6722d3d5c94212bb559270374c76e738849d868336019a8627"
+    },
+    {
+      "@type": "cr:FileObject",
+      "@id": "metadata_prompt_controls_csv",
+      "name": "prompt_controls.csv",
+      "description": "Clean prompt-control substitution table.",
+      "contentUrl": "metadata/prompt_controls.csv",
+      "contentSize": "93931",
+      "encodingFormat": "text/csv",
+      "sha256": "e6ff41bb0ee11dd4173e32be71f93d8453c65150992fadd156c571c4f47e0ff8"
+    },
+    {
+      "@type": "cr:FileObject",
+      "@id": "metadata_data_dictionary_json",
+      "name": "data_dictionary.json",
+      "description": "Data dictionary for the clean metadata layer.",
+      "contentUrl": "metadata/data_dictionary.json",
+      "contentSize": "1169",
+      "encodingFormat": "application/json",
+      "sha256": "6ffaed6e6635bb29cad7af16514c21a9551e512529ffc0601cebc6b17b9bae2e"
+    },
+    {
+      "@type": "cr:FileObject",
+      "@id": "results_main_scores_csv",
+      "name": "main_scores_by_model_prompt.csv",
+      "description": "Main aggregate scores by generator and prompt level.",
+      "contentUrl": "results/main_scores_by_model_prompt.csv",
+      "contentSize": "2878",
+      "encodingFormat": "text/csv",
+      "sha256": "bcd4c9c5f3cde559d0b6227a70189a78f71b6df5433945a1bfbd750a749de450"
+    },
+    {
+      "@type": "cr:FileObject",
+      "@id": "results_per_block_scores_csv",
+      "name": "per_block_scores.csv",
+      "description": "Per-generator, per-level, per-block scores.",
+      "contentUrl": "results/per_block_scores.csv",
+      "contentSize": "866213",
+      "encodingFormat": "text/csv",
+      "sha256": "2f4cd9baac0474f63fef2d5ca8959be25a5e88468cadff3189301a671d1cf5a6"
+    },
+    {
+      "@type": "cr:FileObject",
+      "@id": "results_prompt_control_summary_csv",
+      "name": "control_summary_overall.csv",
+      "description": "Overall prompt-specificity control deltas.",
+      "contentUrl": "results/prompt_controls/control_summary_overall.csv",
+      "contentSize": "3717",
+      "encodingFormat": "text/csv",
+      "sha256": "ed9377ca41cae629ba4c4ba48e6daa510f0a3507fca8513f67a27e850af4637b"
+    },
+    {
+      "@type": "cr:FileObject",
       "@id": "benchmark_v3_json",
       "name": "benchmark_v3.json",
       "description": "Primary benchmark manifest with 112 block records, 7,563 reference-image records, prompt levels, and negative-panel metadata.",
