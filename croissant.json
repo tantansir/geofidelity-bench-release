@@ -52,7 +52,7 @@
     "http://mlcommons.org/croissant/RAI/1.0"
   ],
   "name": "GeoFidelity-Bench",
-  "description": "GeoFidelity-Bench is a benchmark for evaluating whether text-to-image street-view generations match a target location at the level of named street blocks. Version 3.0.0 contains 112 named street blocks from 25 cities across six continents, 7,563 curated Mapillary reference images with GPS and capture metadata, prompt-control metadata, generated images from six open-source generators, and evaluation outputs for geographic fidelity diagnostics.",
+  "description": "GeoFidelity-Bench is a benchmark for evaluating whether text-to-image street-view generations match a target location at the level of named street blocks. Version 3.0.0 contains 112 named street blocks from 25 cities across six continents, 7,563 curated Mapillary reference images with GPS and capture metadata, 16,128 generated images from six open-source generators, prompt-control metadata, and evaluation outputs for geographic fidelity diagnostics.",
   "url": "https://huggingface.co/datasets/moss-vector-714/GeoFidelity-Bench",
   "sameAs": [
     "https://anonymous.4open.science/r/geofidelity-bench-714/"
@@ -90,7 +90,7 @@
     "OpenStreetMap"
   ],
   "citeAs": "@misc{geofidelitybench2026,\n  title={GeoFidelity-Bench: Evaluating Geographic Fidelity in Block-Conditioned Street-View Generation},\n  author={Anonymous Authors},\n  year={2026},\n  note={NeurIPS 2026 submission}\n}",
-  "rai:dataCollection": "Reference panels were collected by querying named OpenStreetMap highway ways within 25 global cities, carving spatially separated named street blocks, downloading public Mapillary street-level images around each block, and retaining images that passed daylight, camera, OSM-buffer, urban-scene, semantic-ratio, image-quality, and manual-review filters. Generated panels were produced from the released prompt metadata using six open-source text-to-image models with deterministic seeds.",
+  "rai:dataCollection": "Reference panels were collected by querying named OpenStreetMap highway ways within 25 global cities, carving spatially separated named street blocks, downloading public Mapillary street-level images around each block, and retaining images that passed daylight, camera, OSM-buffer, urban-scene, semantic-ratio, image-quality, and manual-review filters. Generated panels were produced from the released prompt metadata using six open-source text-to-image models with deterministic seeds; the L0 city-only condition reuses images from an earlier city-only generation pool with the identical city/country prompt template.",
   "rai:dataCollectionType": [
     "Existing public street-view images",
     "OpenStreetMap block metadata",
@@ -167,9 +167,9 @@
       "name": "README.md",
       "description": "Dataset card and quick-start documentation.",
       "contentUrl": "README.md",
-      "contentSize": "4113",
+      "contentSize": "4604",
       "encodingFormat": "text/markdown",
-      "sha256": "a602771ef5b2179c4a96c0914bb5133dfd965e2db94821c3665e832fb4dfdd35"
+      "sha256": "1b2d936b1ae5dd14ffb194a3f7671a555c385e5de86db1d58d0e9d1c1b9cd276"
     },
     {
       "@type": "cr:FileObject",
@@ -177,9 +177,9 @@
       "name": "dataset_manifest.json",
       "description": "Machine-readable summary of counts, path conventions, prompt levels, and recommended entry points.",
       "contentUrl": "dataset_manifest.json",
-      "contentSize": "1149",
+      "contentSize": "1416",
       "encodingFormat": "application/json",
-      "sha256": "0bc0bccc7d243b26602d92f840a0bbf607e2362433efb77d6fc2ec47080523a3"
+      "sha256": "601e22fe00e3602231abab0644a1ce4cba5173a7e1f152f8cf7bf9cc2286a415"
     },
     {
       "@type": "cr:FileObject",
@@ -205,11 +205,11 @@
       "@type": "cr:FileObject",
       "@id": "metadata_generated_images_csv",
       "name": "generated_images.csv",
-      "description": "Clean generated-image index with model, prompt level, prompt text, seed, and image path.",
+      "description": "Complete generated-image index with model, block, prompt level, image path, seed, prompt text, origin, and metadata provenance.",
       "contentUrl": "metadata/generated_images.csv",
-      "contentSize": "8872980",
+      "contentSize": "11053790",
       "encodingFormat": "text/csv",
-      "sha256": "9af4f6318118ae6722d3d5c94212bb559270374c76e738849d868336019a8627"
+      "sha256": "dea791f4a570056dc9e1a728a927115646303d0d789699b7710b804ee2da0fad"
     },
     {
       "@type": "cr:FileObject",
@@ -227,9 +227,9 @@
       "name": "data_dictionary.json",
       "description": "Data dictionary for the clean metadata layer.",
       "contentUrl": "metadata/data_dictionary.json",
-      "contentSize": "1169",
+      "contentSize": "2039",
       "encodingFormat": "application/json",
-      "sha256": "6ffaed6e6635bb29cad7af16514c21a9551e512529ffc0601cebc6b17b9bae2e"
+      "sha256": "662d85abd7229e6146987338c4d843f5ddbbe2cda33db617e19d09d0ecf38ffa"
     },
     {
       "@type": "cr:FileObject",
@@ -404,7 +404,7 @@
       "@type": "cr:FileSet",
       "@id": "generated_manifests",
       "name": "Generated image manifests",
-      "description": "Per-model CSV manifests containing block id, prompt level, image path, seed, prompt text, and prompt metadata.",
+      "description": "Auxiliary per-model CSV manifests from direct v3 generation. Use metadata/generated_images.csv as the complete generated-image index, including L0 city-only images.",
       "includes": "generations_v3/*/manifest.csv",
       "encodingFormat": "text/csv"
     },
@@ -618,17 +618,18 @@
     },
     {
       "@type": "cr:RecordSet",
-      "@id": "generated_images_manifest",
-      "name": "generated_images_manifest",
-      "description": "Generated image manifest rows from each model.",
+      "@id": "generated_image_index",
+      "name": "generated_images",
+      "description": "Complete generated-image index. This table is authoritative for all released generated JPEG files, including L0 city-only images reused from the earlier city-only generation pool.",
       "field": [
         {
-          "@id": "generated_images_manifest/model",
+          "@id": "generated_image_index/model",
           "name": "model",
+          "description": "Generator identifier.",
           "dataType": "sc:Text",
           "source": {
-            "fileSet": {
-              "@id": "generated_manifests"
+            "fileObject": {
+              "@id": "metadata_generated_images_csv"
             },
             "extract": {
               "column": "model"
@@ -637,12 +638,13 @@
           "@type": "cr:Field"
         },
         {
-          "@id": "generated_images_manifest/block_id",
+          "@id": "generated_image_index/block_id",
           "name": "block_id",
+          "description": "Target named street block identifier.",
           "dataType": "sc:Text",
           "source": {
-            "fileSet": {
-              "@id": "generated_manifests"
+            "fileObject": {
+              "@id": "metadata_generated_images_csv"
             },
             "extract": {
               "column": "block_id"
@@ -651,13 +653,43 @@
           "@type": "cr:Field"
         },
         {
-          "@id": "generated_images_manifest/level",
-          "name": "level",
-          "description": "Prompt level or prompt-control condition.",
+          "@id": "generated_image_index/city",
+          "name": "city",
+          "description": "City key used in the benchmark.",
           "dataType": "sc:Text",
           "source": {
-            "fileSet": {
-              "@id": "generated_manifests"
+            "fileObject": {
+              "@id": "metadata_generated_images_csv"
+            },
+            "extract": {
+              "column": "city"
+            }
+          },
+          "@type": "cr:Field"
+        },
+        {
+          "@id": "generated_image_index/country",
+          "name": "country",
+          "description": "Country code used in the prompt.",
+          "dataType": "sc:Text",
+          "source": {
+            "fileObject": {
+              "@id": "metadata_generated_images_csv"
+            },
+            "extract": {
+              "column": "country"
+            }
+          },
+          "@type": "cr:Field"
+        },
+        {
+          "@id": "generated_image_index/level",
+          "name": "level",
+          "description": "Prompt level or prompt-specificity control condition.",
+          "dataType": "sc:Text",
+          "source": {
+            "fileObject": {
+              "@id": "metadata_generated_images_csv"
             },
             "extract": {
               "column": "level"
@@ -666,26 +698,43 @@
           "@type": "cr:Field"
         },
         {
-          "@id": "generated_images_manifest/path",
-          "name": "path",
-          "dataType": "sc:URL",
+          "@id": "generated_image_index/sample_index",
+          "name": "sample_index",
+          "description": "Zero-based sample index within a model, prompt level, and block.",
+          "dataType": "sc:Integer",
           "source": {
-            "fileSet": {
-              "@id": "generated_manifests"
+            "fileObject": {
+              "@id": "metadata_generated_images_csv"
             },
             "extract": {
-              "column": "path"
+              "column": "sample_index"
             }
           },
           "@type": "cr:Field"
         },
         {
-          "@id": "generated_images_manifest/seed",
+          "@id": "generated_image_index/image_path",
+          "name": "image_path",
+          "description": "Relative path to the generated JPEG.",
+          "dataType": "sc:URL",
+          "source": {
+            "fileObject": {
+              "@id": "metadata_generated_images_csv"
+            },
+            "extract": {
+              "column": "image_path"
+            }
+          },
+          "@type": "cr:Field"
+        },
+        {
+          "@id": "generated_image_index/seed",
           "name": "seed",
+          "description": "Deterministic generation seed.",
           "dataType": "sc:Integer",
           "source": {
-            "fileSet": {
-              "@id": "generated_manifests"
+            "fileObject": {
+              "@id": "metadata_generated_images_csv"
             },
             "extract": {
               "column": "seed"
@@ -694,15 +743,61 @@
           "@type": "cr:Field"
         },
         {
-          "@id": "generated_images_manifest/prompt",
+          "@id": "generated_image_index/prompt",
           "name": "prompt",
+          "description": "Text prompt used for the condition.",
           "dataType": "sc:Text",
           "source": {
-            "fileSet": {
-              "@id": "generated_manifests"
+            "fileObject": {
+              "@id": "metadata_generated_images_csv"
             },
             "extract": {
               "column": "prompt"
+            }
+          },
+          "@type": "cr:Field"
+        },
+        {
+          "@id": "generated_image_index/prompt_meta",
+          "name": "prompt_meta",
+          "description": "JSON metadata for the prompt level or prompt-control substitution.",
+          "dataType": "sc:Text",
+          "source": {
+            "fileObject": {
+              "@id": "metadata_generated_images_csv"
+            },
+            "extract": {
+              "column": "prompt_meta"
+            }
+          },
+          "@type": "cr:Field"
+        },
+        {
+          "@id": "generated_image_index/image_origin",
+          "name": "image_origin",
+          "description": "Whether the JPEG came from direct v3 generation or reused city-only generation.",
+          "dataType": "sc:Text",
+          "source": {
+            "fileObject": {
+              "@id": "metadata_generated_images_csv"
+            },
+            "extract": {
+              "column": "image_origin"
+            }
+          },
+          "@type": "cr:Field"
+        },
+        {
+          "@id": "generated_image_index/metadata_source",
+          "name": "metadata_source",
+          "description": "Whether prompt metadata came from a model manifest or was reconstructed from the released path and prompt template.",
+          "dataType": "sc:Text",
+          "source": {
+            "fileObject": {
+              "@id": "metadata_generated_images_csv"
+            },
+            "extract": {
+              "column": "metadata_source"
             }
           },
           "@type": "cr:Field"
