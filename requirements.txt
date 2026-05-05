@@ -1,0 +1,41 @@
+# GeoFidelity-Bench v2 dependencies
+# Core
+torch>=2.1.0
+torchvision>=0.16.0
+numpy>=1.24.0
+pandas>=2.0.0
+scipy>=1.11.0
+scikit-learn>=1.3.0
+Pillow>=10.0.0
+tqdm>=4.66.0
+pyyaml>=6.0
+
+# Image processing
+opencv-python>=4.8.0
+transformers>=4.42.0          # Mask2Former Mapillary-Vistas, SigLIP SO400M
+accelerate>=0.30.0             # diffusion + LLM GPU dispatch
+diffusers>=0.30.0              # SDXL / SD3.5 / FLUX / PixArt / HunyuanDiT
+sentencepiece>=0.2.0           # required by SD3.5 and FLUX tokenizers
+protobuf>=4.0.0                # required by several transformers models
+
+# Geographic
+h3>=4.0.0
+geopy>=2.4.0
+shapely>=2.0.0
+
+# Datasets / models
+huggingface-hub>=0.23.0
+safetensors>=0.4.0
+
+# Metrics
+lpips>=0.1.4
+open-clip-torch>=2.24.0
+timm>=0.9.0
+
+# Visualization
+matplotlib>=3.8.0
+seaborn>=0.13.0
+
+# Utilities
+requests>=2.31.0
+aiohttp>=3.9.0
