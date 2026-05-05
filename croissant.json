@@ -54,9 +54,6 @@
   "name": "GeoFidelity-Bench",
   "description": "GeoFidelity-Bench is a benchmark for evaluating whether text-to-image street-view generations match a target location at the level of named street blocks. Version 3.0.0 contains 112 named street blocks from 25 cities across six continents, 7,563 curated Mapillary reference images with GPS and capture metadata, 16,128 generated images from six open-source generators, prompt-control metadata, and evaluation outputs for geographic fidelity diagnostics.",
   "url": "https://huggingface.co/datasets/moss-vector-714/GeoFidelity-Bench",
-  "sameAs": [
-    "https://anonymous.4open.science/r/geofidelity-bench-714/"
-  ],
   "version": "3.0.0",
   "dateCreated": "2026-04-29",
   "dateModified": "2026-05-05",
