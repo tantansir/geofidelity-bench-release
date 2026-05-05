@@ -167,9 +167,9 @@
       "name": "README.md",
       "description": "Dataset card and quick-start documentation.",
       "contentUrl": "README.md",
-      "contentSize": "4604",
+      "contentSize": "4842",
       "encodingFormat": "text/markdown",
-      "sha256": "1b2d936b1ae5dd14ffb194a3f7671a555c385e5de86db1d58d0e9d1c1b9cd276"
+      "sha256": "0353b23bd9af45084a0d04bfa94760e9ccb0015d39ddb5608ebb5b60991dc6d3"
     },
     {
       "@type": "cr:FileObject",
@@ -195,11 +195,11 @@
       "@type": "cr:FileObject",
       "@id": "metadata_reference_images_csv",
       "name": "reference_images.csv",
-      "description": "Clean reference-image index with paths and GPS metadata.",
+      "description": "Clean curated-reference assignment index with unique reference_id, original Mapillary image id, paths, GPS metadata, and block metadata.",
       "contentUrl": "metadata/reference_images.csv",
-      "contentSize": "2474436",
+      "contentSize": "3047087",
       "encodingFormat": "text/csv",
-      "sha256": "5312b951f01cfb46fb91dbe701d47bae636474124ebe375a9de21f0f73c8fef4"
+      "sha256": "66424a29c50e14d162df78c3c4a8493591037b42789636a75d291b3f8f1833ec"
     },
     {
       "@type": "cr:FileObject",
@@ -227,9 +227,9 @@
       "name": "data_dictionary.json",
       "description": "Data dictionary for the clean metadata layer.",
       "contentUrl": "metadata/data_dictionary.json",
-      "contentSize": "2039",
+      "contentSize": "2857",
       "encodingFormat": "application/json",
-      "sha256": "662d85abd7229e6146987338c4d843f5ddbbe2cda33db617e19d09d0ecf38ffa"
+      "sha256": "a196fb72e0a8df2ea11fd501141abf18eeea7020393883338ef881b30d723f40"
     },
     {
       "@type": "cr:FileObject",
@@ -388,7 +388,7 @@
       "@type": "cr:FileSet",
       "@id": "reference_image_files",
       "name": "Mapillary reference images",
-      "description": "Curated public Mapillary reference images grouped by block.",
+      "description": "Downloaded Mapillary JPEG files grouped by block. The curated reference subset is indexed by metadata/reference_images.csv.",
       "includes": "data/raw/mapillary_v3/**/*.jpg",
       "encodingFormat": "image/jpeg"
     },
@@ -541,19 +541,35 @@
       "@type": "cr:RecordSet",
       "@id": "reference_images",
       "name": "reference_images",
-      "description": "Curated Mapillary reference images nested under each block.",
-      "key": "reference_images/image_id",
+      "description": "Curated Mapillary reference-image assignments. The reference_id is unique; the original Mapillary image_id may appear in multiple nearby block assignments.",
+      "key": "reference_images/reference_id",
       "field": [
         {
-          "@id": "reference_images/image_id",
-          "name": "image_id",
+          "@id": "reference_images/reference_id",
+          "name": "reference_id",
+          "description": "Unique released reference assignment id.",
           "dataType": "sc:Text",
           "source": {
             "fileObject": {
-              "@id": "benchmark_v3_json"
+              "@id": "metadata_reference_images_csv"
             },
             "extract": {
-              "jsonPath": "$.blocks[*].images[*].image_id"
+              "column": "reference_id"
+            }
+          },
+          "@type": "cr:Field"
+        },
+        {
+          "@id": "reference_images/image_id",
+          "name": "image_id",
+          "description": "Original Mapillary image id.",
+          "dataType": "sc:Text",
+          "source": {
+            "fileObject": {
+              "@id": "metadata_reference_images_csv"
+            },
+            "extract": {
+              "column": "image_id"
             }
           },
           "@type": "cr:Field"
@@ -561,41 +577,89 @@
         {
           "@id": "reference_images/image_path",
           "name": "image_path",
+          "description": "Relative path to the Mapillary JPEG.",
           "dataType": "sc:URL",
           "source": {
             "fileObject": {
-              "@id": "benchmark_v3_json"
+              "@id": "metadata_reference_images_csv"
             },
             "extract": {
-              "jsonPath": "$.blocks[*].images[*].image_path"
+              "column": "image_path"
             }
           },
           "@type": "cr:Field"
         },
         {
-          "@id": "reference_images/latitude",
-          "name": "latitude",
-          "dataType": "sc:Float",
+          "@id": "reference_images/block_id",
+          "name": "block_id",
+          "description": "Target named street block identifier.",
+          "dataType": "sc:Text",
           "source": {
             "fileObject": {
-              "@id": "benchmark_v3_json"
+              "@id": "metadata_reference_images_csv"
             },
             "extract": {
-              "jsonPath": "$.blocks[*].images[*].lat"
+              "column": "block_id"
             }
           },
           "@type": "cr:Field"
         },
         {
-          "@id": "reference_images/longitude",
-          "name": "longitude",
+          "@id": "reference_images/city",
+          "name": "city",
+          "description": "City key used in the benchmark.",
+          "dataType": "sc:Text",
+          "source": {
+            "fileObject": {
+              "@id": "metadata_reference_images_csv"
+            },
+            "extract": {
+              "column": "city"
+            }
+          },
+          "@type": "cr:Field"
+        },
+        {
+          "@id": "reference_images/country",
+          "name": "country",
+          "description": "Country code used in prompts and summaries.",
+          "dataType": "sc:Text",
+          "source": {
+            "fileObject": {
+              "@id": "metadata_reference_images_csv"
+            },
+            "extract": {
+              "column": "country"
+            }
+          },
+          "@type": "cr:Field"
+        },
+        {
+          "@id": "reference_images/lat",
+          "name": "lat",
+          "description": "Image latitude from Mapillary metadata.",
           "dataType": "sc:Float",
           "source": {
             "fileObject": {
-              "@id": "benchmark_v3_json"
+              "@id": "metadata_reference_images_csv"
             },
             "extract": {
-              "jsonPath": "$.blocks[*].images[*].lon"
+              "column": "lat"
+            }
+          },
+          "@type": "cr:Field"
+        },
+        {
+          "@id": "reference_images/lon",
+          "name": "lon",
+          "description": "Image longitude from Mapillary metadata.",
+          "dataType": "sc:Float",
+          "source": {
+            "fileObject": {
+              "@id": "metadata_reference_images_csv"
+            },
+            "extract": {
+              "column": "lon"
             }
           },
           "@type": "cr:Field"
@@ -603,13 +667,14 @@
         {
           "@id": "reference_images/captured_at_utc_ms",
           "name": "captured_at_utc_ms",
+          "description": "Mapillary capture timestamp in UTC milliseconds.",
           "dataType": "sc:Integer",
           "source": {
             "fileObject": {
-              "@id": "benchmark_v3_json"
+              "@id": "metadata_reference_images_csv"
             },
             "extract": {
-              "jsonPath": "$.blocks[*].images[*].captured_at_utc_ms"
+              "column": "captured_at_utc_ms"
             }
           },
           "@type": "cr:Field"
