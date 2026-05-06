@@ -56,7 +56,7 @@
   "url": "https://huggingface.co/datasets/moss-vector-714/GeoFidelity-Bench",
   "version": "3.0.0",
   "dateCreated": "2026-04-29",
-  "dateModified": "2026-05-05",
+  "dateModified": "2026-05-06",
   "datePublished": "2026-05-05",
   "inLanguage": [
     "en"
@@ -163,7 +163,7 @@
       "@id": "dataset_readme",
       "name": "README.md",
       "description": "Dataset card and quick-start documentation.",
-      "contentUrl": "README.md",
+      "contentUrl": "https://huggingface.co/datasets/moss-vector-714/GeoFidelity-Bench/resolve/main/README.md",
       "contentSize": "4842",
       "encodingFormat": "text/markdown",
       "sha256": "0353b23bd9af45084a0d04bfa94760e9ccb0015d39ddb5608ebb5b60991dc6d3"
@@ -173,7 +173,7 @@
       "@id": "dataset_manifest_json",
       "name": "dataset_manifest.json",
       "description": "Machine-readable summary of counts, path conventions, prompt levels, and recommended entry points.",
-      "contentUrl": "dataset_manifest.json",
+      "contentUrl": "https://huggingface.co/datasets/moss-vector-714/GeoFidelity-Bench/resolve/main/dataset_manifest.json",
       "contentSize": "1416",
       "encodingFormat": "application/json",
       "sha256": "601e22fe00e3602231abab0644a1ce4cba5173a7e1f152f8cf7bf9cc2286a415"
@@ -183,7 +183,7 @@
       "@id": "metadata_blocks_csv",
       "name": "blocks.csv",
       "description": "Clean block-level metadata table.",
-      "contentUrl": "metadata/blocks.csv",
+      "contentUrl": "https://huggingface.co/datasets/moss-vector-714/GeoFidelity-Bench/resolve/main/metadata/blocks.csv",
       "contentSize": "44516",
       "encodingFormat": "text/csv",
       "sha256": "e81d04804f7b3d176cbcdf484a55d48ff84c10a9c3f44754a52e1f60ff7ad108"
@@ -193,7 +193,7 @@
       "@id": "metadata_reference_images_csv",
       "name": "reference_images.csv",
       "description": "Clean curated-reference assignment index with unique reference_id, original Mapillary image id, paths, GPS metadata, and block metadata.",
-      "contentUrl": "metadata/reference_images.csv",
+      "contentUrl": "https://huggingface.co/datasets/moss-vector-714/GeoFidelity-Bench/resolve/main/metadata/reference_images.csv",
       "contentSize": "3047087",
       "encodingFormat": "text/csv",
       "sha256": "66424a29c50e14d162df78c3c4a8493591037b42789636a75d291b3f8f1833ec"
@@ -203,7 +203,7 @@
       "@id": "metadata_generated_images_csv",
       "name": "generated_images.csv",
       "description": "Complete generated-image index with model, block, prompt level, image path, seed, prompt text, origin, and metadata provenance.",
-      "contentUrl": "metadata/generated_images.csv",
+      "contentUrl": "https://huggingface.co/datasets/moss-vector-714/GeoFidelity-Bench/resolve/main/metadata/generated_images.csv",
       "contentSize": "11053790",
       "encodingFormat": "text/csv",
       "sha256": "dea791f4a570056dc9e1a728a927115646303d0d789699b7710b804ee2da0fad"
@@ -213,7 +213,7 @@
       "@id": "metadata_prompt_controls_csv",
       "name": "prompt_controls.csv",
       "description": "Clean prompt-control substitution table.",
-      "contentUrl": "metadata/prompt_controls.csv",
+      "contentUrl": "https://huggingface.co/datasets/moss-vector-714/GeoFidelity-Bench/resolve/main/metadata/prompt_controls.csv",
       "contentSize": "93931",
       "encodingFormat": "text/csv",
       "sha256": "e6ff41bb0ee11dd4173e32be71f93d8453c65150992fadd156c571c4f47e0ff8"
@@ -223,7 +223,7 @@
       "@id": "metadata_data_dictionary_json",
       "name": "data_dictionary.json",
       "description": "Data dictionary for the clean metadata layer.",
-      "contentUrl": "metadata/data_dictionary.json",
+      "contentUrl": "https://huggingface.co/datasets/moss-vector-714/GeoFidelity-Bench/resolve/main/metadata/data_dictionary.json",
       "contentSize": "2857",
       "encodingFormat": "application/json",
       "sha256": "a196fb72e0a8df2ea11fd501141abf18eeea7020393883338ef881b30d723f40"
@@ -233,7 +233,7 @@
       "@id": "results_main_scores_csv",
       "name": "main_scores_by_model_prompt.csv",
       "description": "Main aggregate scores by generator and prompt level.",
-      "contentUrl": "results/main_scores_by_model_prompt.csv",
+      "contentUrl": "https://huggingface.co/datasets/moss-vector-714/GeoFidelity-Bench/resolve/main/results/main_scores_by_model_prompt.csv",
       "contentSize": "2878",
       "encodingFormat": "text/csv",
       "sha256": "bcd4c9c5f3cde559d0b6227a70189a78f71b6df5433945a1bfbd750a749de450"
@@ -243,7 +243,7 @@
       "@id": "results_per_block_scores_csv",
       "name": "per_block_scores.csv",
       "description": "Per-generator, per-level, per-block scores.",
-      "contentUrl": "results/per_block_scores.csv",
+      "contentUrl": "https://huggingface.co/datasets/moss-vector-714/GeoFidelity-Bench/resolve/main/results/per_block_scores.csv",
       "contentSize": "866213",
       "encodingFormat": "text/csv",
       "sha256": "2f4cd9baac0474f63fef2d5ca8959be25a5e88468cadff3189301a671d1cf5a6"
@@ -253,7 +253,7 @@
       "@id": "results_prompt_control_summary_csv",
       "name": "control_summary_overall.csv",
       "description": "Overall prompt-specificity control deltas.",
-      "contentUrl": "results/prompt_controls/control_summary_overall.csv",
+      "contentUrl": "https://huggingface.co/datasets/moss-vector-714/GeoFidelity-Bench/resolve/main/results/prompt_controls/control_summary_overall.csv",
       "contentSize": "3717",
       "encodingFormat": "text/csv",
       "sha256": "ed9377ca41cae629ba4c4ba48e6daa510f0a3507fca8513f67a27e850af4637b"
@@ -263,7 +263,7 @@
       "@id": "benchmark_v3_json",
       "name": "benchmark_v3.json",
       "description": "Primary benchmark manifest with 112 block records, 7,563 reference-image records, prompt levels, and negative-panel metadata.",
-      "contentUrl": "data/processed/v3/benchmark_v3.json",
+      "contentUrl": "https://huggingface.co/datasets/moss-vector-714/GeoFidelity-Bench/resolve/main/data/processed/v3/benchmark_v3.json",
       "contentSize": "4428593",
       "encodingFormat": "application/json",
       "sha256": "095d313d675e62e07b1db54302e4a6b9daf2715dcd63d761d745d413846c7591"
@@ -273,7 +273,7 @@
       "@id": "blocks_v3_json",
       "name": "blocks_v3.json",
       "description": "Candidate block metadata before final image-count curation.",
-      "contentUrl": "data/processed/v3/blocks_v3.json",
+      "contentUrl": "https://huggingface.co/datasets/moss-vector-714/GeoFidelity-Bench/resolve/main/data/processed/v3/blocks_v3.json",
       "contentSize": "1114290",
       "encodingFormat": "application/json",
       "sha256": "82beafbe68c6223833c7707f433f7bbae6c4df5add40ac0611927a0e5f46479a"
@@ -283,7 +283,7 @@
       "@id": "prompt_controls_v3_json",
       "name": "prompt_controls_v3.json",
       "description": "Same-city prompt-specificity controls for wrong street, shuffled neighborhood, and combined corruptions.",
-      "contentUrl": "data/processed/v3/prompt_controls_v3.json",
+      "contentUrl": "https://huggingface.co/datasets/moss-vector-714/GeoFidelity-Bench/resolve/main/data/processed/v3/prompt_controls_v3.json",
       "contentSize": "126176",
       "encodingFormat": "application/json",
       "sha256": "5f91e2878d305a1555e428bbe703dd58b30954b546e0778ced7ee976796c9fa4"
@@ -293,7 +293,7 @@
       "@id": "prompt_controls_preview_csv",
       "name": "prompt_controls_v3_preview.csv",
       "description": "Tabular preview of prompt-control substitutions.",
-      "contentUrl": "data/processed/v3/prompt_controls_v3_preview.csv",
+      "contentUrl": "https://huggingface.co/datasets/moss-vector-714/GeoFidelity-Bench/resolve/main/data/processed/v3/prompt_controls_v3_preview.csv",
       "contentSize": "93931",
       "encodingFormat": "text/csv",
       "sha256": "e6ff41bb0ee11dd4173e32be71f93d8453c65150992fadd156c571c4f47e0ff8"
@@ -303,7 +303,7 @@
       "@id": "tier5_quality_csv",
       "name": "tier5_quality.csv",
       "description": "Final curation table with image paths, block metadata, automatic filter outputs, semantic ratios, and image-quality measurements.",
-      "contentUrl": "data/processed/v3/tier5_quality.csv",
+      "contentUrl": "https://huggingface.co/datasets/moss-vector-714/GeoFidelity-Bench/resolve/main/data/processed/v3/tier5_quality.csv",
       "contentSize": "24744811",
       "encodingFormat": "text/csv",
       "sha256": "42664714d9beae6dd497639bccc9edfff36f6d798ad03e018b8169e648a889c1"
@@ -313,7 +313,7 @@
       "@id": "eval_summary_by_method_level_csv",
       "name": "summary_by_method_level.csv",
       "description": "Main evaluation summary by method and prompt level.",
-      "contentUrl": "outputs/eval_v3/summary_by_method_level.csv",
+      "contentUrl": "https://huggingface.co/datasets/moss-vector-714/GeoFidelity-Bench/resolve/main/outputs/eval_v3/summary_by_method_level.csv",
       "contentSize": "2878",
       "encodingFormat": "text/csv",
       "sha256": "bcd4c9c5f3cde559d0b6227a70189a78f71b6df5433945a1bfbd750a749de450"
@@ -323,7 +323,7 @@
       "@id": "eval_raw_results_csv",
       "name": "raw_results.csv",
       "description": "Per-method, per-level, per-block evaluation scores.",
-      "contentUrl": "outputs/eval_v3/raw_results.csv",
+      "contentUrl": "https://huggingface.co/datasets/moss-vector-714/GeoFidelity-Bench/resolve/main/outputs/eval_v3/raw_results.csv",
       "contentSize": "866213",
       "encodingFormat": "text/csv",
       "sha256": "2f4cd9baac0474f63fef2d5ca8959be25a5e88468cadff3189301a671d1cf5a6"
@@ -333,7 +333,7 @@
       "@id": "human_trials_json",
       "name": "trials.json",
       "description": "Human-evaluation pilot trial definitions.",
-      "contentUrl": "outputs/human_eval_v3_l1/trials.json",
+      "contentUrl": "https://huggingface.co/datasets/moss-vector-714/GeoFidelity-Bench/resolve/main/outputs/human_eval_v3_l1/trials.json",
       "contentSize": "236400",
       "encodingFormat": "application/json",
       "sha256": "d71f72c421961da47fb544de296ce6432721538b3007b6164b52e9de5fa103e4"
@@ -343,7 +343,7 @@
       "@id": "human_eval_html",
       "name": "human_eval.html",
       "description": "Self-contained browser interface for the tie-aware human-evaluation pilot.",
-      "contentUrl": "outputs/human_eval_v3_l1/human_eval.html",
+      "contentUrl": "https://huggingface.co/datasets/moss-vector-714/GeoFidelity-Bench/resolve/main/outputs/human_eval_v3_l1/human_eval.html",
       "contentSize": "63872213",
       "encodingFormat": "text/html",
       "sha256": "178ee237e731cfd49e773041133ca8f02eec51f5e94fbdd6cacbcf4d0d7acc30"
@@ -353,7 +353,7 @@
       "@id": "ratings_anon_csv",
       "name": "ratings_anon.csv",
       "description": "Anonymized completed rating file for the human-evaluation pilot.",
-      "contentUrl": "ratings_anon.csv",
+      "contentUrl": "https://huggingface.co/datasets/moss-vector-714/GeoFidelity-Bench/resolve/main/ratings_anon.csv",
       "contentSize": "14888",
       "encodingFormat": "text/csv",
       "sha256": "b3702e97baa426cce6c9a7a4e54589347de6ab779a33ed7f3cb16ccfe3f9a107"
@@ -391,7 +391,7 @@
     },
     {
       "@type": "cr:FileSet",
-      "@id": "generated_images",
+      "@id": "generated_image_files",
       "name": "Generated street-view images",
       "description": "Generated panels for six open-source text-to-image models under prompt levels and prompt-specificity controls.",
       "includes": "generations_v3/**/*.jpg",
@@ -680,12 +680,12 @@
     },
     {
       "@type": "cr:RecordSet",
-      "@id": "generated_image_index",
+      "@id": "generated_images",
       "name": "generated_images",
       "description": "Complete generated-image index. This table is authoritative for all released generated JPEG files, including L0 city-only images reused from the earlier city-only generation pool.",
       "field": [
         {
-          "@id": "generated_image_index/model",
+          "@id": "generated_images/model",
           "name": "model",
           "description": "Generator identifier.",
           "dataType": "sc:Text",
@@ -700,7 +700,7 @@
           "@type": "cr:Field"
         },
         {
-          "@id": "generated_image_index/block_id",
+          "@id": "generated_images/block_id",
           "name": "block_id",
           "description": "Target named street block identifier.",
           "dataType": "sc:Text",
@@ -715,7 +715,7 @@
           "@type": "cr:Field"
         },
         {
-          "@id": "generated_image_index/city",
+          "@id": "generated_images/city",
           "name": "city",
           "description": "City key used in the benchmark.",
           "dataType": "sc:Text",
@@ -730,7 +730,7 @@
           "@type": "cr:Field"
         },
         {
-          "@id": "generated_image_index/country",
+          "@id": "generated_images/country",
           "name": "country",
           "description": "Country code used in the prompt.",
           "dataType": "sc:Text",
@@ -745,7 +745,7 @@
           "@type": "cr:Field"
         },
         {
-          "@id": "generated_image_index/level",
+          "@id": "generated_images/level",
           "name": "level",
           "description": "Prompt level or prompt-specificity control condition.",
           "dataType": "sc:Text",
@@ -760,7 +760,7 @@
           "@type": "cr:Field"
         },
         {
-          "@id": "generated_image_index/sample_index",
+          "@id": "generated_images/sample_index",
           "name": "sample_index",
           "description": "Zero-based sample index within a model, prompt level, and block.",
           "dataType": "sc:Integer",
@@ -775,7 +775,7 @@
           "@type": "cr:Field"
         },
         {
-          "@id": "generated_image_index/image_path",
+          "@id": "generated_images/image_path",
           "name": "image_path",
           "description": "Relative path to the generated JPEG.",
           "dataType": "sc:URL",
@@ -790,7 +790,7 @@
           "@type": "cr:Field"
         },
         {
-          "@id": "generated_image_index/seed",
+          "@id": "generated_images/seed",
           "name": "seed",
           "description": "Deterministic generation seed.",
           "dataType": "sc:Integer",
@@ -805,7 +805,7 @@
           "@type": "cr:Field"
         },
         {
-          "@id": "generated_image_index/prompt",
+          "@id": "generated_images/prompt",
           "name": "prompt",
           "description": "Text prompt used for the condition.",
           "dataType": "sc:Text",
@@ -820,7 +820,7 @@
           "@type": "cr:Field"
         },
         {
-          "@id": "generated_image_index/prompt_meta",
+          "@id": "generated_images/prompt_meta",
           "name": "prompt_meta",
           "description": "JSON metadata for the prompt level or prompt-control substitution.",
           "dataType": "sc:Text",
@@ -835,7 +835,7 @@
           "@type": "cr:Field"
         },
         {
-          "@id": "generated_image_index/image_origin",
+          "@id": "generated_images/image_origin",
           "name": "image_origin",
           "description": "Whether the JPEG came from direct v3 generation or reused city-only generation.",
           "dataType": "sc:Text",
@@ -850,7 +850,7 @@
           "@type": "cr:Field"
         },
         {
-          "@id": "generated_image_index/metadata_source",
+          "@id": "generated_images/metadata_source",
           "name": "metadata_source",
           "description": "Whether prompt metadata came from a model manifest or was reconstructed from the released path and prompt template.",
           "dataType": "sc:Text",
@@ -958,5 +958,6 @@
         }
       ]
     }
-  ]
+  ],
+  "rai:hasSyntheticData": true
 }
