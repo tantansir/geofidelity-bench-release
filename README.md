@@ -25,6 +25,7 @@ GeoFidelity-Bench tests whether a text-to-image model draws the street block it 
 ## News
 
 - **2026-09** · Camera-ready release for the NeurIPS 2026 Track on Evaluations and Datasets: de-anonymized repository, updated documentation, and a [project page](https://tantansir.github.io/geofidelity-bench-release/).
+- **2026-09** · Dataset [v3.1.0](https://huggingface.co/datasets/moss-vector-714/GeoFidelity-Bench) restores the original 112-block indices and archived scores, adds direct image URLs to the metadata tables, marks unrecorded seeds as missing, and adds a code archive.
 
 ## Overview
 
@@ -40,7 +41,7 @@ Each target is a named OpenStreetMap street block. Its geometry selects the Mapi
 | L1 | L0 + street + neighborhood | *taken on {street} in the {neighborhood} district of {city}, {country}* |
 | L2 | L1 + raw GPS as text | *... of {city}, {country}, near GPS coordinates ({lat}, {lon})* |
 
-All levels share the same photorealistic, daytime, clear-weather suffix. Three same-city controls keep the L1 template and replace the street name, the neighborhood label, or both with those of another benchmark block. Six open-weight generators produce four images per block and prompt condition.
+All levels share the same photorealistic, daytime, clear-weather suffix. Three same-city controls keep the L1 template and replace the street name, the neighborhood label, or both with those of another benchmark block. Six open-weight generators produce four images per block and prompt condition, 16,128 generated images in total.
 
 ## Key findings
 
@@ -60,6 +61,7 @@ All levels share the same photorealistic, daytime, clear-weather suffix. Three s
 | Average images per block | 67.5 | minimum 25 per block |
 | Prompt levels | 3 | plus three same-city controls |
 | Generator models | 6 | open-weight text-to-image models |
+| Generated images | 16,128 | six models, six prompt conditions, four samples per block |
 | Retrieval entries per block | up to 5 | target, two same-city blocks, one same-driving-side city, one random city |
 
 ## Results
@@ -126,7 +128,23 @@ pip install -r requirements.txt
 
 ## Data
 
-The dataset (version 3.1.0) is on Hugging Face: [moss-vector-714/GeoFidelity-Bench](https://huggingface.co/datasets/moss-vector-714/GeoFidelity-Bench). Download it into the repository root so that the relative image paths in `benchmark_v3.json` resolve:
+The dataset (version 3.1.0) is on Hugging Face: [moss-vector-714/GeoFidelity-Bench](https://huggingface.co/datasets/moss-vector-714/GeoFidelity-Bench). Every row of the image tables carries a direct download URL, so single images can be read without a local copy:
+
+```python
+from io import BytesIO
+import pandas as pd
+import requests
+from PIL import Image
+
+base = "https://huggingface.co/datasets/moss-vector-714/GeoFidelity-Bench/resolve/main/"
+refs = pd.read_csv(base + "metadata/reference_images.csv", dtype={"image_id": str})
+row = refs.iloc[0]
+response = requests.get(row.image_url, timeout=60)
+response.raise_for_status()
+image = Image.open(BytesIO(response.content)).convert("RGB")
+```
+
+To run the code in this repository, download the dataset into the repository root, so that `metadata/`, `results/`, `data/`, and `generations_v3/` sit next to `config.py` and the relative image paths resolve:
 
 ```python
 from huggingface_hub import snapshot_download
@@ -135,29 +153,63 @@ snapshot_download(
     "moss-vector-714/GeoFidelity-Bench",
     repo_type="dataset",
     local_dir=".",
-    ignore_patterns=["README.md", ".gitattributes"],  # keep this repository's README
-    # Metadata and released scores only:
+    ignore_patterns=["README.md", ".gitattributes", "croissant.json"],  # keep this repository's copies
+    # Metadata and archived scores only:
     # allow_patterns=["metadata/*", "results/*", "data/processed/v3/*"],
 )
 ```
 
-Main entry points, as listed in [`croissant.json`](croissant.json):
+Main entry points (the metadata tables, score files, and code archive are also described in [`croissant.json`](croissant.json)):
 
 | Path | Contents |
 |:--|:--|
-| `metadata/blocks.csv` | one row per block: `block_id` (city, road stratum, OSM way id, street), street and neighborhood names, centroid |
-| `metadata/reference_images.csv` | reference assignments with a unique `reference_id`, the Mapillary `image_id`, paths, and GPS |
-| `metadata/generated_images.csv` | every generated image with model, block, prompt level, path, seed, and prompt text |
-| `metadata/prompt_controls.csv` | donor names used by the same-city controls |
-| `data/processed/v3/benchmark_v3.json` | primary manifest: blocks, reference images, and retrieval negatives |
-| `data/processed/v3/tier5_quality.csv` | final curation table with filter outputs and semantic pixel ratios |
-| `data/raw/mapillary_v3/` | Mapillary reference images |
-| `generations_v3/<model>/<level>/<block_id>/` | four generated images per block and prompt condition |
-| `results/`, `outputs/eval_v3/` | released per-block and aggregate scores |
+| `metadata/blocks.csv` | 112 target blocks with geographic metadata and the original negative-block IDs |
+| `metadata/reference_images.csv` | 7,563 block-image assignments with paths, direct download URLs, Mapillary source links, and capture metadata |
+| `metadata/generated_images.csv` | 16,128 generated images with prompts, seed provenance, and download URLs |
+| `metadata/prompt_controls.csv` | 336 same-city prompt substitutions |
+| `metadata/data_dictionary.json` | field descriptions and keys |
+| `results/per_block_scores.csv`, `results/main_scores_by_model_prompt.csv` | archived prompt-ablation session: per-block scores and means for L0, L1, L2, and the real-image anchors |
+| `results/prompt_controls/` | archived control session: per-block scores, including its own L1 run, and paired L1-minus-control effects |
+| `results/reviewer_stats/`, `results/rebuttal/` | prompt intervals, city-balanced estimates, reference comparisons, human-pilot summaries, and the CLIP, city-omission, and segmentation analyses |
+| `data/processed/v3/benchmark_v3.json` | manifest read by the evaluation code: blocks, reference images, and retrieval negatives |
+| `data/processed/v3/tier*.csv` | curation tables with filter outputs and semantic pixel ratios |
+| `data/raw/mapillary_v3/{block_id}/mapillary_{image_id}.jpg` | reference images |
+| `generations_v3/{model}/{level}/{block_id}/{sample_index:02d}.jpg` | generated images, four per block and prompt condition |
+| `code/GeoFidelity-Bench-code.zip` | code archive published with the dataset |
+
+`metadata/reference_images.csv` is the authoritative reference index. The raw image folders also hold collection candidates that are not part of the benchmark. `reference_id` identifies a block-image assignment, while `image_id` identifies the Mapillary image, which can be assigned to more than one nearby block. The human pilot is archived in `results/human_trials.json` and `results/human_ratings_anon.csv`, and outputs of the earlier place-level version are kept in `results/legacy/`.
 
 ## Evaluate
 
-Score one released generator at the three prompt levels. Pass a fresh `--out_dir` so that the released files in `outputs/eval_v3/` stay intact.
+### Archived scores
+
+The paper's numbers come from two archived scoring sessions in `results/`: the prompt-ablation session (L0, L1, L2, and the real-image anchors) and the control session, which has its own L1 run. Pair conditions within one session only. The archived scores can be aggregated without running any model:
+
+```python
+import pandas as pd
+
+scores = pd.read_csv("results/per_block_scores.csv")
+metrics = ["cos_sim", "dcsf", "mmd", "gaas", "retrieval_acc", "mrr"]
+means = scores.groupby(["method", "level"])[metrics].mean()
+```
+
+The analysis scripts run on the same files:
+
+```bash
+# Prompt-ablation session: paired and city-balanced prompt deltas, hierarchy gaps, rank stability
+mkdir -p outputs/eval_v3
+cp results/per_block_scores.csv outputs/eval_v3/raw_results.csv
+python eval/reviewer_analysis_v3.py           # -> outputs/eval_v3/reviewer_stats/
+
+# Control session: paired L1-minus-control effects
+python eval/control_ablation_v3.py \
+    --raw_results results/prompt_controls/control_per_block_scores.csv \
+    --out_dir outputs/archived_controls
+```
+
+### Score images
+
+Score one released generator at the three prompt levels. Four real images per block are held out as queries, and which four depends on the order of the reference images, so a new run can differ slightly from the archived scores, as can runs with other library versions. Write each run to its own `--out_dir` and keep it apart from the archived records.
 
 ```bash
 python eval/run_eval_v3.py --methods sdxl_base --levels L0 L1 L2 --out_dir outputs/eval_sdxl
@@ -222,7 +274,7 @@ python generation/run_generation_v3.py --model sdxl_base --resume \
     --levels C_WRONG_STREET C_SHUFFLED_NEIGHBORHOOD C_WRONG_STREET_NEIGHBORHOOD
 ```
 
-Images are generated at 1024 × 1024 with per-image seeds derived from (model, block, level, index) and saved as 512 × 512 JPEGs. The released L0 images reuse a pool of city-only generations for each city ([`generation/seed_v3_L0_from_v2.py`](generation/seed_v3_L0_from_v2.py)); the command above generates new L0 images with the same template instead.
+Images are generated at 1024 × 1024 and saved as 512 × 512 JPEGs. Each image has its own seed, `_seed_for(model, block_id, level, sample_index)` in [`generation/run_generation_v3.py`](generation/run_generation_v3.py). The released L2 images were generated while that level was still named `L3`, so their seeds use `"L3"` as the level. The `seed` column of `metadata/generated_images.csv` (v3.1.0) passed through float64 and is rounded, so recompute exact seeds with `_seed_for`. The 2,688 released L0 images were drawn from a pool of city-only generations for each city ([`generation/seed_v3_L0_from_v2.py`](generation/seed_v3_L0_from_v2.py)); their seeds were not recorded and are left blank. The command above generates new L0 images with the same template instead.
 
 | `--model` | Weights | Steps | Guidance | Precision | CPU offload |
 |:--|:--|--:|--:|:--:|:--:|
@@ -267,25 +319,24 @@ eval/
   metric_human_correlation_v3.py pilot human-study analysis
 scripts/build_paper_tables_v3.py LaTeX macros for the paper tables
 docs/                            project page (GitHub Pages)
-croissant.json                   Croissant metadata for the dataset
+.github/workflows/pages.yml      copies docs/ to the gh-pages branch
+croissant.json                   Croissant metadata for the dataset (same file as on Hugging Face)
 ```
 
 Scripts without the `_v3` suffix (for example `eval/run_eval.py`, `data/run_curation.py`, and `baselines/`) belong to an earlier place-level version of the benchmark and are kept for reference; the paper uses the v3 block-level pipeline.
 
 ## Project page
 
-The page in [`docs/`](docs/) is a static site with no build step. To publish it, open *Settings → Pages* in this repository and deploy from the default branch with the `/docs` folder; it is then served at <https://tantansir.github.io/geofidelity-bench-release/>.
+The page in [`docs/`](docs/) is a static site with no build step. GitHub Pages serves it from the `gh-pages` branch at <https://tantansir.github.io/geofidelity-bench-release/>. The workflow [`.github/workflows/pages.yml`](.github/workflows/pages.yml) copies `docs/` to `gh-pages` on every push to `master` that changes `docs/`; it can also be started by hand from the Actions tab.
 
 ## Citation
 
 ```bibtex
-@inproceedings{tan2026geofidelitybench,
-  title     = {{GeoFidelity-Bench}: Evaluating Block-Conditioned Geographic Fidelity
-               in Text-to-Image Street-View Generation},
-  author    = {Tan, Kaizhen},
-  booktitle = {Advances in Neural Information Processing Systems (NeurIPS),
-               Track on Evaluations and Datasets},
-  year      = {2026}
+@inproceedings{tan2026geofidelity,
+  title={GeoFidelity-Bench: Evaluating Block-Conditioned Geographic Fidelity in Text-to-Image Street-View Generation},
+  author={Tan, Kaizhen},
+  booktitle={Advances in Neural Information Processing Systems},
+  year={2026}
 }
 ```
 
@@ -294,11 +345,11 @@ GitHub also reads [`CITATION.cff`](CITATION.cff) for the "Cite this repository" 
 ## License
 
 - Code in this repository: [MIT License](LICENSE).
-- Reference images: Mapillary, [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0/).
-- Block metadata derived from OpenStreetMap: [ODbL 1.0](https://opendatacommons.org/licenses/odbl/), © OpenStreetMap contributors.
-- Generated images: the terms of each source model, listed in the dataset card.
+- Reference images: Mapillary contributors, [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0/), with a source link for every image in `metadata/reference_images.csv`. The images keep Mapillary's privacy blurring.
+- Block metadata derived from OpenStreetMap: [ODbL 1.0](https://www.openstreetmap.org/copyright), © OpenStreetMap contributors.
+- Benchmark annotations and generated images: [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0/), subject to the terms of each source model, which the dataset card links. Model weights are not redistributed.
 
-The benchmark is intended for evaluating geographic fidelity. It is not intended for surveillance, person identification, or any use that could harm people depicted in Mapillary imagery.
+The benchmark measures visual agreement with local reference panels and is meant for model comparison and prompt-conditioning studies. It has no established validity for person identification, surveillance, or reconstructing events, and generated images of a place should not be presented as real evidence.
 
 ## Acknowledgments
 
