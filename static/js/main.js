@@ -371,7 +371,7 @@
 
   // Code examples
   setupTabs(document.getElementById("code-tabs"), function (tab) {
-    ["cp-dl", "cp-eval", "cp-own"].forEach(function (id) {
+    ["cp-load", "cp-dl", "cp-scores", "cp-eval", "cp-own"].forEach(function (id) {
       var p = document.getElementById(id);
       if (p) p.hidden = id !== tab.getAttribute("aria-controls");
     });

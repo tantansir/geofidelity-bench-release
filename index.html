@@ -114,7 +114,7 @@
         <div><dt>named street blocks, carved from OpenStreetMap ways</dt><dd>112</dd></div>
         <div><dt>cities in 23 countries on six continents</dt><dd>25</dd></div>
         <div><dt>reference assignments from 7,433 distinct Mapillary images</dt><dd>7,563</dd></div>
-        <div><dt>open-weight generators, three prompt levels and three controls</dt><dd>6</dd></div>
+        <div><dt>generated images from six open-weight models</dt><dd>16,128</dd></div>
       </dl>
     </div>
 
@@ -785,13 +785,13 @@
   <div class="wrap">
     <p class="section__label">Release</p>
     <h2 id="release-title">Data and code</h2>
-    <p class="lede">The dataset (version 3.1.0) holds the reference images, generated images for all six prompt conditions, block and prompt metadata, evaluation outputs, and Croissant metadata. This repository holds the curation pipeline, generation wrappers, metrics, and evaluation scripts.</p>
+    <p class="lede">The dataset (version 3.1.0) holds the reference images, the 16,128 generated images for all six prompt conditions, metadata tables with direct image URLs, the archived scores of both scoring sessions, a code archive, and Croissant metadata. This repository holds the curation pipeline, generation wrappers, metrics, and evaluation scripts.</p>
 
     <div class="sub">
       <div class="release">
         <a class="card" href="https://huggingface.co/datasets/moss-vector-714/GeoFidelity-Bench">
           <div class="card__top"><span class="card__title"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><ellipse cx="12" cy="5.5" rx="7.5" ry="2.8"/><path d="M4.5 5.5v6.5c0 1.5 3.4 2.8 7.5 2.8s7.5-1.3 7.5-2.8V5.5"/><path d="M4.5 12v6.5c0 1.5 3.4 2.8 7.5 2.8s7.5-1.3 7.5-2.8V12"/></svg>Dataset</span><span class="card__meta">Hugging Face</span></div>
-          <p>Reference panels, generated images indexed by model, block, and prompt, clean metadata tables, and per-block scores.</p>
+          <p>Reference panels, generated images indexed by model, block, and prompt, metadata tables with a download URL for every image, and the archived per-block scores.</p>
           <span class="card__link">moss-vector-714/GeoFidelity-Bench <span aria-hidden="true">↗</span></span>
         </a>
         <a class="card" href="https://github.com/tantansir/geofidelity-bench-release">
@@ -810,12 +810,14 @@
     <div class="sub">
       <div class="sub__head">
         <h3>Quick start</h3>
-        <p>Download the release into the repository root so that the image paths in <span class="mono">benchmark_v3.json</span> resolve, then score a model. Evaluation runs on CUDA by default (<span class="mono">DEVICE</span> in <span class="mono">config.py</span>), loads DINOv2 through <span class="mono">torch.hub</span>, and segments generated images with Mask2Former for GAAS.</p>
+        <p>Single images can be read through the URLs in the metadata tables. To run the code, download the release into the repository root so that the relative image paths resolve. The archived scores in <span class="mono">results/</span> reproduce the paper&rsquo;s tables without running any model. Evaluation runs on CUDA by default (<span class="mono">DEVICE</span> in <span class="mono">config.py</span>), loads DINOv2 through <span class="mono">torch.hub</span>, and segments generated images with Mask2Former for GAAS.</p>
       </div>
       <div class="card code-card">
         <div class="code-card__bar">
           <div class="tabs" role="tablist" aria-label="Code examples" id="code-tabs">
-            <button class="tab" role="tab" id="ct-dl" aria-controls="cp-dl" aria-selected="true">Download</button>
+            <button class="tab" role="tab" id="ct-load" aria-controls="cp-load" aria-selected="true">Load</button>
+            <button class="tab" role="tab" id="ct-dl" aria-controls="cp-dl" aria-selected="false" tabindex="-1">Download</button>
+            <button class="tab" role="tab" id="ct-scores" aria-controls="cp-scores" aria-selected="false" tabindex="-1">Archived scores</button>
             <button class="tab" role="tab" id="ct-eval" aria-controls="cp-eval" aria-selected="false" tabindex="-1">Evaluate</button>
             <button class="tab" role="tab" id="ct-own" aria-controls="cp-own" aria-selected="false" tabindex="-1">Your model</button>
           </div>
@@ -824,7 +826,21 @@
             <span>Copy</span>
           </button>
         </div>
-<pre class="code" id="cp-dl" role="tabpanel" aria-labelledby="ct-dl" tabindex="0"><code><span class="k">git</span> clone https://github.com/tantansir/geofidelity-bench-release.git
+<pre class="code" id="cp-load" role="tabpanel" aria-labelledby="ct-load" tabindex="0"><code><span class="k">from</span> io <span class="k">import</span> BytesIO
+<span class="k">import</span> pandas <span class="k">as</span> pd
+<span class="k">import</span> requests
+<span class="k">from</span> PIL <span class="k">import</span> Image
+
+base = <span class="s">"https://huggingface.co/datasets/moss-vector-714/GeoFidelity-Bench/resolve/main/"</span>
+refs = pd.read_csv(base + <span class="s">"metadata/reference_images.csv"</span>, dtype={<span class="s">"image_id"</span>: str})
+row = refs.iloc[0]
+response = requests.get(row.image_url, timeout=60)
+response.raise_for_status()
+image = Image.open(BytesIO(response.content)).convert(<span class="s">"RGB"</span>)
+
+<span class="c"># metadata/generated_images.csv has the same image_url column,</span>
+<span class="c"># plus model, level, sample_index, and the prompt of every image.</span></code></pre>
+<pre class="code" id="cp-dl" role="tabpanel" aria-labelledby="ct-dl" tabindex="0" hidden><code><span class="k">git</span> clone https://github.com/tantansir/geofidelity-bench-release.git
 <span class="k">cd</span> geofidelity-bench-release
 <span class="k">pip</span> install -r requirements.txt
 
@@ -835,13 +851,32 @@ snapshot_download(
     <span class="s">"moss-vector-714/GeoFidelity-Bench"</span>,
     repo_type=<span class="s">"dataset"</span>,
     local_dir=<span class="s">"."</span>,
-    ignore_patterns=[<span class="s">"README.md"</span>, <span class="s">".gitattributes"</span>],  <span class="c"># keep this repo's README</span>
-    <span class="c"># metadata and scores only:</span>
+    ignore_patterns=[<span class="s">"README.md"</span>, <span class="s">".gitattributes"</span>, <span class="s">"croissant.json"</span>],  <span class="c"># keep this repo's copies</span>
+    <span class="c"># metadata and archived scores only:</span>
     <span class="c"># allow_patterns=["metadata/*", "results/*", "data/processed/v3/*"],</span>
 )
 EOF</code></pre>
-<pre class="code" id="cp-eval" role="tabpanel" aria-labelledby="ct-eval" tabindex="0" hidden><code><span class="c"># Score one released generator at the three prompt levels.</span>
-<span class="c"># A fresh --out_dir keeps the released outputs/eval_v3 files intact.</span>
+<pre class="code" id="cp-scores" role="tabpanel" aria-labelledby="ct-scores" tabindex="0" hidden><code><span class="c"># The paper's numbers come from two archived sessions in results/:</span>
+<span class="c"># prompt ablation (L0, L1, L2, anchors) and controls (with their own L1 run).</span>
+<span class="c"># Pair conditions within one session only.</span>
+<span class="k">python</span> - &lt;&lt;<span class="s">'EOF'</span>
+<span class="k">import</span> pandas <span class="k">as</span> pd
+scores = pd.read_csv(<span class="s">"results/per_block_scores.csv"</span>)
+metrics = [<span class="s">"cos_sim"</span>, <span class="s">"dcsf"</span>, <span class="s">"mmd"</span>, <span class="s">"gaas"</span>, <span class="s">"retrieval_acc"</span>, <span class="s">"mrr"</span>]
+print(scores.groupby([<span class="s">"method"</span>, <span class="s">"level"</span>])[metrics].mean())
+EOF
+
+<span class="c"># Prompt deltas, hierarchy gaps, and rank stability</span>
+<span class="k">mkdir</span> -p outputs/eval_v3
+<span class="k">cp</span> results/per_block_scores.csv outputs/eval_v3/raw_results.csv
+<span class="k">python</span> eval/reviewer_analysis_v3.py
+
+<span class="c"># Paired L1-minus-control effects</span>
+<span class="k">python</span> eval/control_ablation_v3.py \
+    --raw_results results/prompt_controls/control_per_block_scores.csv \
+    --out_dir outputs/archived_controls</code></pre>
+<pre class="code" id="cp-eval" role="tabpanel" aria-labelledby="ct-eval" tabindex="0" hidden><code><span class="c"># Score one released generator at the three prompt levels. A new run can</span>
+<span class="c"># differ slightly from the archived scores; give each run its own --out_dir.</span>
 <span class="k">python</span> eval/run_eval_v3.py --methods sdxl_base --levels L0 L1 L2 \
     --out_dir outputs/eval_sdxl
 
@@ -872,9 +907,9 @@ generations_v3/<span class="s">my_model</span>/L1/<span class="s">&lt;block_id&g
     <div class="sub">
       <dl class="licenses">
         <div><dt>Code</dt><dd>MIT License</dd></div>
-        <div><dt>Reference images</dt><dd>Mapillary, CC BY-SA 4.0</dd></div>
+        <div><dt>Reference images</dt><dd>Mapillary contributors, CC BY-SA 4.0</dd></div>
         <div><dt>Block metadata</dt><dd>OpenStreetMap, ODbL 1.0</dd></div>
-        <div><dt>Generated images</dt><dd>Terms of each source model</dd></div>
+        <div><dt>Generated images</dt><dd>CC BY-SA 4.0, subject to model terms</dd></div>
       </dl>
     </div>
   </div>
@@ -900,7 +935,7 @@ generations_v3/<span class="s">my_model</span>/L1/<span class="s">&lt;block_id&g
       </li>
       <li>
         <h3>Generated places can mislead</h3>
-        <p>Generated location images can reinforce place stereotypes or mislead when shown as photographic evidence. The benchmark uses public Mapillary imagery with the platform’s privacy processing and is meant for evaluating geographic fidelity, not for surveillance or identifying people.</p>
+        <p>Generated location images can reinforce place stereotypes or mislead when shown as photographic evidence. The benchmark uses public Mapillary imagery with the platform’s privacy processing and is meant for model comparison and prompt-conditioning studies. It has no established validity for identifying people, surveillance, or reconstructing events.</p>
       </li>
     </ul>
   </div>
@@ -920,13 +955,11 @@ generations_v3/<span class="s">my_model</span>/L1/<span class="s">&lt;block_id&g
             <span>Copy</span>
           </button>
         </div>
-<pre class="code" id="bibtex" tabindex="0"><code>@inproceedings{tan2026geofidelitybench,
-  title     = {{GeoFidelity-Bench}: Evaluating Block-Conditioned Geographic Fidelity
-               in Text-to-Image Street-View Generation},
-  author    = {Tan, Kaizhen},
-  booktitle = {Advances in Neural Information Processing Systems (NeurIPS),
-               Track on Evaluations and Datasets},
-  year      = {2026}
+<pre class="code" id="bibtex" tabindex="0"><code>@inproceedings{tan2026geofidelity,
+  title={GeoFidelity-Bench: Evaluating Block-Conditioned Geographic Fidelity in Text-to-Image Street-View Generation},
+  author={Tan, Kaizhen},
+  booktitle={Advances in Neural Information Processing Systems},
+  year={2026}
 }</code></pre>
       </div>
     </div>
