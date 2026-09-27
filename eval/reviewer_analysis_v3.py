@@ -275,11 +275,15 @@ def main():
     hierarchy_df, gap_df = hierarchy_stats(df, out_dir, rng)
     coverage_df = coverage_stats(config.V3_BENCHMARK_JSON, out_dir)
     ranks_df, winners_df = rank_stability(df[df["method"].isin(MODELS)], out_dir, rng)
-    human_df = human_archive_summary(
-        config.OUTPUT_DIR / "human_eval" / "trials.json",
-        config.OUTPUT_DIR / "human_eval" / "ratings",
-        out_dir,
-    )
+    # The human-study archive is optional; skip it when the trial file is absent.
+    trials_path = config.OUTPUT_DIR / "human_eval" / "trials.json"
+    human_df = None
+    if trials_path.exists():
+        human_df = human_archive_summary(
+            trials_path,
+            config.OUTPUT_DIR / "human_eval" / "ratings",
+            out_dir,
+        )
 
     print("\n[prompt deltas]")
     print(prompt_df.round(4).to_string(index=False))
@@ -296,7 +300,10 @@ def main():
     print("\n[per-city winners]")
     print(winners_df.to_string(index=False))
     print("\n[human archive]")
-    print(human_df.to_string(index=False))
+    if human_df is None:
+        print(f"skipped: {trials_path} not found")
+    else:
+        print(human_df.to_string(index=False))
     print(f"\n[reviewer_analysis_v3] saved outputs to {out_dir}")
 
 
