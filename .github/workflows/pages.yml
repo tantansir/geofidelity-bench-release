@@ -1,0 +1,50 @@
+# Copies docs/ to the gh-pages branch, which GitHub Pages serves at
+# https://tantansir.github.io/geofidelity-bench-release/
+name: Publish project page
+
+on:
+  push:
+    branches: [master]
+    paths:
+      - "docs/**"
+      - ".github/workflows/pages.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: publish-project-page
+  cancel-in-progress: false
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out master
+        uses: actions/checkout@v5
+
+      - name: Copy docs/ to gh-pages
+        run: |
+          set -euo pipefail
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "41898282+github-actions[bot]@users.noreply.github.com"
+
+          if git ls-remote --exit-code --heads origin gh-pages > /dev/null; then
+            git fetch --depth=1 origin gh-pages
+            git worktree add --detach "$RUNNER_TEMP/site" FETCH_HEAD
+          else
+            git worktree add --detach "$RUNNER_TEMP/site"
+            git -C "$RUNNER_TEMP/site" checkout --orphan gh-pages
+            git -C "$RUNNER_TEMP/site" rm -rfq .
+          fi
+
+          rsync -a --delete --exclude .git docs/ "$RUNNER_TEMP/site/"
+          cd "$RUNNER_TEMP/site"
+          git add -A
+          if git diff --cached --quiet; then
+            echo "gh-pages already matches docs/ at ${GITHUB_SHA::7}"
+            exit 0
+          fi
+          git commit -q -m "Publish docs/ from ${GITHUB_SHA::7}"
+          git push origin HEAD:refs/heads/gh-pages
