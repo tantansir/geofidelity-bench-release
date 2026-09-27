@@ -67,14 +67,16 @@
   ],
   "creator": [
     {
-      "@type": "sc:Organization",
-      "name": "Anonymous Authors"
+      "@type": "sc:Person",
+      "name": "Kaizhen Tan",
+      "email": "kt3275@nyu.edu"
     }
   ],
   "publisher": [
     {
-      "@type": "sc:Organization",
-      "name": "Anonymous Authors"
+      "@type": "sc:Person",
+      "name": "Kaizhen Tan",
+      "email": "kt3275@nyu.edu"
     }
   ],
   "keywords": [
@@ -86,7 +88,7 @@
     "Mapillary",
     "OpenStreetMap"
   ],
-  "citeAs": "@misc{geofidelitybench2026,\n  title={GeoFidelity-Bench: Evaluating Geographic Fidelity in Block-Conditioned Street-View Generation},\n  author={Anonymous Authors},\n  year={2026},\n  note={NeurIPS 2026 submission}\n}",
+  "citeAs": "@inproceedings{tan2026geofidelitybench,\n  title={{GeoFidelity-Bench}: Evaluating Block-Conditioned Geographic Fidelity in Text-to-Image Street-View Generation},\n  author={Tan, Kaizhen},\n  booktitle={Advances in Neural Information Processing Systems (NeurIPS), Track on Evaluations and Datasets},\n  year={2026}\n}",
   "rai:dataCollection": "Reference panels were collected by querying named OpenStreetMap highway ways within 25 global cities, carving spatially separated named street blocks, downloading public Mapillary street-level images around each block, and retaining images that passed daylight, camera, OSM-buffer, urban-scene, semantic-ratio, image-quality, and manual-review filters. Generated panels were produced from the released prompt metadata using six open-source text-to-image models with deterministic seeds; the L0 city-only condition reuses images from an earlier city-only generation pool with the identical city/country prompt template.",
   "rai:dataCollectionType": [
     "Existing public street-view images",
