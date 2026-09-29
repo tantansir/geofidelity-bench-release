@@ -24,7 +24,6 @@ GeoFidelity-Bench tests whether a text-to-image model draws the street block it 
 
 ## News
 
-- **2026-09** · The paper is on arXiv: [2606.23669](https://arxiv.org/abs/2606.23669).
 - **2026-09** · Camera-ready release for the NeurIPS 2026 Track on Evaluations and Datasets: de-anonymized repository, updated documentation, and a [project page](https://tantansir.github.io/geofidelity-bench-release/).
 - **2026-09** · Dataset [v3.1.0](https://huggingface.co/datasets/moss-vector-714/GeoFidelity-Bench) restores the original 112-block indices and archived scores, adds direct image URLs to the metadata tables, marks unrecorded seeds as missing, and adds a code archive.
 
