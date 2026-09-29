@@ -14,7 +14,7 @@
 
 <p align="center">
   <a href="https://tantansir.github.io/geofidelity-bench-release/"><img alt="Project page" src="https://img.shields.io/badge/Project-page-1f4e7a?style=flat-square"></a>
-  <img alt="Paper: link coming soon" src="https://img.shields.io/badge/Paper-coming%20soon-8b9ba3?style=flat-square">
+  <a href="https://arxiv.org/abs/2606.23669"><img alt="arXiv 2606.23669" src="https://img.shields.io/badge/arXiv-2606.23669-b31b1b?style=flat-square"></a>
   <a href="https://huggingface.co/datasets/moss-vector-714/GeoFidelity-Bench"><img alt="Dataset on Hugging Face" src="https://img.shields.io/badge/Dataset-Hugging%20Face-008e9b?style=flat-square"></a>
   <a href="croissant.json"><img alt="Croissant metadata" src="https://img.shields.io/badge/Metadata-Croissant-6356bf?style=flat-square"></a>
   <a href="LICENSE"><img alt="Code license: MIT" src="https://img.shields.io/badge/Code-MIT-c8663f?style=flat-square"></a>
@@ -24,6 +24,7 @@ GeoFidelity-Bench tests whether a text-to-image model draws the street block it 
 
 ## News
 
+- **2026-09** · The paper is on arXiv: [2606.23669](https://arxiv.org/abs/2606.23669).
 - **2026-09** · Camera-ready release for the NeurIPS 2026 Track on Evaluations and Datasets: de-anonymized repository, updated documentation, and a [project page](https://tantansir.github.io/geofidelity-bench-release/).
 - **2026-09** · Dataset [v3.1.0](https://huggingface.co/datasets/moss-vector-714/GeoFidelity-Bench) restores the original 112-block indices and archived scores, adds direct image URLs to the metadata tables, marks unrecorded seeds as missing, and adds a code archive.
 
@@ -330,6 +331,8 @@ Scripts without the `_v3` suffix (for example `eval/run_eval.py`, `data/run_cura
 The page in [`docs/`](docs/) is a static site with no build step. GitHub Pages serves it from the `gh-pages` branch at <https://tantansir.github.io/geofidelity-bench-release/>. The workflow [`.github/workflows/pages.yml`](.github/workflows/pages.yml) copies `docs/` to `gh-pages` on every push to `master` that changes `docs/`; it can also be started by hand from the Actions tab.
 
 ## Citation
+
+Paper: [arXiv:2606.23669](https://arxiv.org/abs/2606.23669)
 
 ```bibtex
 @inproceedings{tan2026geofidelity,
